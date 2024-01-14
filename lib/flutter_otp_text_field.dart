@@ -5,12 +5,14 @@ import 'package:flutter/services.dart';
 
 typedef OnCodeEnteredCompletion = void Function(String value);
 typedef OnCodeChanged = void Function(String value);
-typedef HandleControllers = void Function(List<TextEditingController?> controllers);
+typedef HandleControllers = void Function(
+    List<TextEditingController?> controllers);
 
 class OtpTextField extends StatefulWidget {
   final bool showCursor;
   final int numberOfFields;
   final double fieldWidth;
+  final double fieldHeight;
   final double borderWidth;
   final Color enabledBorderColor;
   final Color focusedBorderColor;
@@ -31,7 +33,7 @@ class OtpTextField extends StatefulWidget {
   final bool filled;
   final bool autoFocus;
   final bool readOnly;
-   bool clearText;
+  bool clearText;
   final bool hasCustomInputDecoration;
   final Color fillColor;
   final BorderRadius borderRadius;
@@ -43,6 +45,7 @@ class OtpTextField extends StatefulWidget {
     this.showCursor = true,
     this.numberOfFields = 4,
     this.fieldWidth = 40.0,
+    this.fieldHeight = 40.0,
     this.margin = const EdgeInsets.only(right: 8.0),
     this.textStyle,
     this.clearText = false,
@@ -99,12 +102,12 @@ class _OtpTextFieldState extends State<OtpTextField> {
   @override
   void didUpdateWidget(covariant OtpTextField oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if(oldWidget.clearText != widget.clearText && widget.clearText == true) {
-      for (var controller in _textControllers ){
+    if (oldWidget.clearText != widget.clearText && widget.clearText == true) {
+      for (var controller in _textControllers) {
         controller?.clear();
       }
       _verificationCode = List<String?>.filled(widget.numberOfFields, null);
-      setState((){
+      setState(() {
         widget.clearText = false;
       });
     }
@@ -129,6 +132,7 @@ class _OtpTextFieldState extends State<OtpTextField> {
   }) {
     return Container(
       width: widget.fieldWidth,
+      height: widget.fieldHeight,
       margin: widget.margin,
       child: TextField(
         showCursor: widget.showCursor,
@@ -171,7 +175,8 @@ class _OtpTextFieldState extends State<OtpTextField> {
             value: value,
             indexOfTextField: index,
           );
-          changeFocusToPreviousNodeWhenValueIsRemoved(value: value, indexOfTextField: index);
+          changeFocusToPreviousNodeWhenValueIsRemoved(
+              value: value, indexOfTextField: index);
           onSubmit(verificationCode: _verificationCode);
         },
       ),
@@ -214,7 +219,6 @@ class _OtpTextFieldState extends State<OtpTextField> {
       }
       return _buildTextField(context: context, index: i);
     });
-
 
     return Row(
       mainAxisAlignment: widget.mainAxisAlignment,
@@ -267,7 +271,6 @@ class _OtpTextFieldState extends State<OtpTextField> {
       }
     }
   }
-
 
   void onSubmit({required List<String?> verificationCode}) {
     if (verificationCode.every((String? code) => code != null && code != '')) {
