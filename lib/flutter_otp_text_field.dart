@@ -45,7 +45,7 @@ class OtpTextField extends StatefulWidget {
     this.showCursor = true,
     this.numberOfFields = 4,
     this.fieldWidth = 40.0,
-    this.fieldHeight = 40.0,
+    this.fieldHeight = 50.0,
     this.margin = const EdgeInsets.only(right: 8.0),
     this.textStyle,
     this.clearText = false,
@@ -138,6 +138,7 @@ class _OtpTextFieldState extends State<OtpTextField> {
         showCursor: widget.showCursor,
         keyboardType: widget.keyboardType,
         textAlign: TextAlign.center,
+        textAlignVertical: TextAlignVertical.center,
         maxLength: 1,
         readOnly: widget.readOnly,
         style: style ?? widget.textStyle,
@@ -151,6 +152,7 @@ class _OtpTextFieldState extends State<OtpTextField> {
             ? widget.decoration
             : InputDecoration(
                 counterText: "",
+                contentPadding: EdgeInsets.zero,
                 filled: widget.filled,
                 fillColor: widget.fillColor,
                 focusedBorder: widget.showFieldAsBox
